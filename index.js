@@ -9,7 +9,7 @@ function Book(title, author, pages, read, id) {
     this.author = author;
     this.pages = pages;
     this.read = read;
-    this.id = id;
+    this.id = crypto.randomUUID(id);
 }
 
 
@@ -19,6 +19,13 @@ function addBookToLibrary(title, author, pages, read) {
     displayBooks();
 } 
 
+function removeBook(id) {
+    const index = myLibrary.findIndex(book => book.id === id);
+    if (index !== -1) {
+        myLibrary.splice(index, 1);
+        displayBooks();
+    }
+}
 function toggleReadStatus(id) {
     const book = myLibrary.find(book => book.id === id);
     if (book) {
@@ -38,7 +45,8 @@ function displayBooks() {
             <p> Pages: ${book.pages}</p>
             <p>Status: ${book.read ? "Read" : "Not Read"}</p>
             <button onclick="toggleReadStatus('${book.id}')">Toggle Read</button>
-        `;
+            <button onclick="removeBook ('${book.id}')">Remove</button>
+            `;
         library.appendChild(bookCard);
     });
 }
