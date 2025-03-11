@@ -4,8 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="index.js" defer></script>    
+
 </head>
 <body>
+    <div class="container">
+        <div class="head">
+            <h1>Library</h1>
+            <button id="new-book">New Book</button>
+        </div>
+        <div class="card-section">     
+        </div>
+        <dialog id="book-modal">
+            <form id="book-form">
+                <h2>Add a New Book</h2>
+                <label for="title">Title:</label>
+                <input type="text" id="title" required>
+    
+                <label for="author">Author:</label>
+                <input type="text" id="author" required>
+    
+                <label for="pages">Pages:</label>
+                <input type="number" id="pages" required>
+    
+                <label>
+                    <input type="checkbox" id="read"> Have you read it?
+                </label>
+    
+                <button type="submit">Add Book</button>
+                <button type="button" id="close-modal">Cancel</button>
+            </form> 
+        </dialog>
+    </div>
     
 </body>
 </html>
