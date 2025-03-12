@@ -1,24 +1,28 @@
+const myLibrary = [];
 
+// Book Constructor
+class Book {
+    constructor(title, author, pages, read) {
+        this.id = crypto.randomUUID();
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.read = read;
+    }
 
-const myLibrary =[];
-const library = document.querySelector('.card-section');
-const dialog = document.getElementById("book-form")
-
-function Book(title, author, pages, read, id) {
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.read = read;
-    this.id = crypto.randomUUID(id);
+    toggleRead() {
+        this.read = !this.read;
+    }
 }
 
-
+// Function to add a new book
 function addBookToLibrary(title, author, pages, read) {
-    let book = new Book(title, author, pages, read);
-    myLibrary.push(book);
+    const newBook = new Book(title, author, pages, read);
+    myLibrary.push(newBook);
     displayBooks();
-} 
+}
 
+// Function to remove a book
 function removeBook(id) {
     const index = myLibrary.findIndex(book => book.id === id);
     if (index !== -1) {
@@ -26,53 +30,55 @@ function removeBook(id) {
         displayBooks();
     }
 }
+
+// Function to toggle read status
 function toggleReadStatus(id) {
     const book = myLibrary.find(book => book.id === id);
     if (book) {
-        book.read = !book.read;
+        book.toggleRead();
         displayBooks();
     }
 }
 
+// Function to display books on the page
 function displayBooks() {
-    library.innerHTML="";
+    const libraryContainer = document.getElementById("library");
+    libraryContainer.innerHTML = "";
+
     myLibrary.forEach(book => {
-        const bookCard = document.createElement('div');
-        bookCard.setAttribute("class", "card");
+        const bookCard = document.createElement("div");
+        bookCard.classList.add("book-card");
         bookCard.innerHTML = `
             <h3>${book.title}</h3>
-            <p> Author: ${book.author}</p>
-            <p> Pages: ${book.pages}</p>
+            <p>Author: ${book.author}</p>
+            <p>Pages: ${book.pages}</p>
             <p>Status: ${book.read ? "Read" : "Not Read"}</p>
             <button onclick="toggleReadStatus('${book.id}')">Toggle Read</button>
-            <button onclick="removeBook ('${book.id}')">Remove</button>
-            `;
-        library.appendChild(bookCard);
+            <button onclick="removeBook('${book.id}')">Remove</button>
+        `;
+        libraryContainer.appendChild(bookCard);
     });
 }
 
+// Event listener for form submission
 document.getElementById("book-form").addEventListener("submit", function(event) {
     event.preventDefault();
     const title = document.getElementById("title").value;
     const author = document.getElementById("author").value;
     const pages = document.getElementById("pages").value;
     const read = document.getElementById("read").checked;
-    
+
     addBookToLibrary(title, author, pages, read);
     document.getElementById("book-form").reset();
     document.getElementById("book-modal").close();
 });
 
-document.getElementById("new-book").addEventListener("click", () => {
+// Show modal function
+document.getElementById("new-book-btn").addEventListener("click", () => {
     document.getElementById("book-modal").showModal();
 });
 
+// Close modal function
 document.getElementById("close-modal").addEventListener("click", () => {
     document.getElementById("book-modal").close();
 });
-
-addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 295, true);
-addBookToLibrary('Mind Games', 'Nora Roberts', 421, false);
-addBookToLibrary('Chi\'s Sweet Adventures Vol. 3', 'Konami Kanata', 88, true);
-addBookToLibrary('Erased Vol. 1', 'Kei Sanbe', 392, false);
-console.log(myLibrary);
